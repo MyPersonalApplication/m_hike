@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Hike Management</string>
+    <string-array name="difficultyLevelArray">
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Difficult</item>
+    </string-array>
+
+    <string-array name="searchCriteria">
+        <item>Name</item>
+        <item>Location</item>
+        <item>Length</item>
+        <item>Date</item>
+    </string-array>
+</resources>
