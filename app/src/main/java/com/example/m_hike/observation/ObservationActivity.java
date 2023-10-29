@@ -69,6 +69,9 @@ public class ObservationActivity extends AppCompatActivity implements Observatio
         lstObservation = new ArrayList<>();
         lstObservation = databaseHelper.getAllObservations(hikeId);
 
+        // Set the last assigned id
+        Observation.setLastAssignedId(lstObservation.get(0).getId());
+
         LoadObservation(lstObservation);
     }
 
@@ -187,7 +190,7 @@ public class ObservationActivity extends AppCompatActivity implements Observatio
                 if (result.getResultCode() == Activity.RESULT_OK) {
                     Intent data = result.getData();
                     if (data != null) {
-                        Toast.makeText(ObservationActivity.this, "Return successfully!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ObservationActivity.this, "Returned to the observation page", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

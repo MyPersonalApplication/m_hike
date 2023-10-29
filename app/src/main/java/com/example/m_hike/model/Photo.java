@@ -1,15 +1,13 @@
 package com.example.m_hike.model;
 
-import java.util.Date;
-
 public class Photo {
-    private static int lastAssignedId = 0;
+    private static long lastAssignedId = 0;
     private long id;
-    private long observationId;
+    private final long observationId;
     private String title;
     private String description;
     private byte[] imageUrl;
-    private String timestamp;
+    private final String timestamp;
 
     public Photo(long observationId, String title, String description, byte[] imageUrl, String timestamp) {
         this.id = ++lastAssignedId;
@@ -29,6 +27,10 @@ public class Photo {
         this.timestamp = timestamp;
     }
 
+    public static void setLastAssignedId(long lastAssignedId) {
+        Photo.lastAssignedId = lastAssignedId;
+    }
+
     public long getId() {
         return id;
     }
@@ -39,10 +41,6 @@ public class Photo {
 
     public long getObservationId() {
         return observationId;
-    }
-
-    public void setObservationId(long observationId) {
-        this.observationId = observationId;
     }
 
     public String getTitle() {
@@ -71,9 +69,5 @@ public class Photo {
 
     public String getTimestamp() {
         return timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
     }
 }

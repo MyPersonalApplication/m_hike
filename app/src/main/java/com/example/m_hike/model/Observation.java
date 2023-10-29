@@ -1,14 +1,13 @@
 package com.example.m_hike.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Observation implements Serializable {
-    private static int lastAssignedId = 0;
+    private static long lastAssignedId = 0;
     private long id;
-    private long hikeId;
+    private final long hikeId;
     private String name;
-    private String time;
+    private final String time;
     private String additionalComment;
 
     public Observation(long hikeId, String name, String time, String additionalComment) {
@@ -27,6 +26,10 @@ public class Observation implements Serializable {
         this.additionalComment = additionalComment;
     }
 
+    public static void setLastAssignedId(long lastAssignedId) {
+        Observation.lastAssignedId = lastAssignedId;
+    }
+
     public long getId() {
         return id;
     }
@@ -39,10 +42,6 @@ public class Observation implements Serializable {
         return hikeId;
     }
 
-    public void setHikeId(long hikeId) {
-        this.hikeId = hikeId;
-    }
-
     public String getName() {
         return name;
     }
@@ -53,10 +52,6 @@ public class Observation implements Serializable {
 
     public String getTime() {
         return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
 
     public String getAdditionalComment() {

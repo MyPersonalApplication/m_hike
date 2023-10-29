@@ -3,11 +3,11 @@ package com.example.m_hike.model;
 import java.io.Serializable;
 
 public class User implements Serializable {
-    private String username;
+    private final String username;
     private String fullName;
     private String password;
     private byte[] avatar;
-    private String created;
+    private final String created;
 
     public User(String username, String fullName, String password, byte[] avatar, String created) {
         this.username = username;
@@ -19,10 +19,6 @@ public class User implements Serializable {
 
     public String getUsername() {
         return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getFullName() {
@@ -51,9 +47,5 @@ public class User implements Serializable {
 
     public String getCreated() {
         return created;
-    }
-
-    public void setCreated(String created) {
-        this.created = created;
     }
 }

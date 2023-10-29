@@ -109,7 +109,7 @@ public class ManageHikeActivity extends AppCompatActivity implements LocationHel
                 showToast("Hike latitude is required");
                 return;
             }
-            if (!isNumber(hikeLatitude)) {
+            if (isNumber(hikeLatitude)) {
                 showToast("Hike latitude must be a number");
                 return;
             }
@@ -117,7 +117,7 @@ public class ManageHikeActivity extends AppCompatActivity implements LocationHel
                 showToast("Hike longitude is required");
                 return;
             }
-            if (!isNumber(hikeLongitude)) {
+            if (isNumber(hikeLongitude)) {
                 showToast("Hike longitude must be a number");
                 return;
             }
@@ -130,7 +130,7 @@ public class ManageHikeActivity extends AppCompatActivity implements LocationHel
                 showToast("Hike length is required");
                 return;
             }
-            if (!isNumber(hikeLength)) {
+            if (isNumber(hikeLength)) {
                 showToast("Hike length must be a number");
                 return;
             }
@@ -209,8 +209,8 @@ public class ManageHikeActivity extends AppCompatActivity implements LocationHel
         locationHelper.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    public static boolean isNumber(String str) {
+    public boolean isNumber(String str) {
         Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
-        return pattern.matcher(str).matches();
+        return !pattern.matcher(str).matches();
     }
 }

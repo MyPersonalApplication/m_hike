@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.m_hike.R;
 import com.example.m_hike.model.Hike;
-import com.example.m_hike.model.Observation;
 
 import java.util.ArrayList;
 import java.util.List;

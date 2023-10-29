@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Add 4 hikes to the database if it is empty
-        if (databaseHelper.getAllHikes("quangnd").size() == 0 || databaseHelper.getAllHikes("duongnt").size() == 0) {
+        if (databaseHelper.getAllHikes("quangnd").size() == 0 && databaseHelper.getAllHikes("duongnt").size() == 0) {
             databaseHelper.saveHike(new Hike(
                     "quangnd",
                     "Hike 1",
@@ -96,9 +96,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Add 8 observations to the database if it is empty
         if (
-                databaseHelper.getAllObservations(1).size() == 0 ||
-                databaseHelper.getAllObservations(2).size() == 0 ||
-                databaseHelper.getAllObservations(3).size() == 0 ||
+                databaseHelper.getAllObservations(1).size() == 0 &&
+                databaseHelper.getAllObservations(2).size() == 0 &&
+                databaseHelper.getAllObservations(3).size() == 0 &&
                 databaseHelper.getAllObservations(4).size() == 0
         ) {
             databaseHelper.addObservation(new Observation(1, "Observation 1", date, "Observation 1 comment"));
@@ -113,13 +113,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Add 16 photos to the database if it is empty
         if (
-                databaseHelper.getAllPhotos(1).size() == 0 ||
-                databaseHelper.getAllPhotos(2).size() == 0 ||
-                databaseHelper.getAllPhotos(3).size() == 0 ||
-                databaseHelper.getAllPhotos(4).size() == 0 ||
-                databaseHelper.getAllPhotos(5).size() == 0 ||
-                databaseHelper.getAllPhotos(6).size() == 0 ||
-                databaseHelper.getAllPhotos(7).size() == 0 ||
+                databaseHelper.getAllPhotos(1).size() == 0 &&
+                databaseHelper.getAllPhotos(2).size() == 0 &&
+                databaseHelper.getAllPhotos(3).size() == 0 &&
+                databaseHelper.getAllPhotos(4).size() == 0 &&
+                databaseHelper.getAllPhotos(5).size() == 0 &&
+                databaseHelper.getAllPhotos(6).size() == 0 &&
+                databaseHelper.getAllPhotos(7).size() == 0 &&
                 databaseHelper.getAllPhotos(8).size() == 0
         ) {
             // Get default_avatar from drawable and assign to imageBytes

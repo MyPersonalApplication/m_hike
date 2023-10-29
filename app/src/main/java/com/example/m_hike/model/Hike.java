@@ -1,12 +1,11 @@
 package com.example.m_hike.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Hike implements Serializable {
-    private static int lastAssignedId = 0;
+    private static long lastAssignedId = 0;
     private long id;
-    private String username;
+    private final String username;
     private String name;
     private String location;
     private Float latitude;
@@ -45,6 +44,10 @@ public class Hike implements Serializable {
         this.description = description;
     }
 
+    public static void setLastAssignedId(long lastAssignedId) {
+        Hike.lastAssignedId = lastAssignedId;
+    }
+
     public long getId() {
         return id;
     }
@@ -55,10 +58,6 @@ public class Hike implements Serializable {
 
     public String getUsername() {
         return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getName() {

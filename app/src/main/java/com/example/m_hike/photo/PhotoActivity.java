@@ -81,6 +81,9 @@ public class PhotoActivity extends AppCompatActivity implements PhotoAdapter.Cus
         lstPhoto = new ArrayList<>();
         lstPhoto = databaseHelper.getAllPhotos(observationId);
 
+        // Set the last assigned id
+        Photo.setLastAssignedId(lstPhoto.get(0).getId());
+
         LoadPhoto(lstPhoto);
     }
 
@@ -130,7 +133,7 @@ public class PhotoActivity extends AppCompatActivity implements PhotoAdapter.Cus
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.addPhoto) {
             HandleAddPhoto();
-        } else if (item.getItemId() == R.id.returnHike) {
+        } else if (item.getItemId() == R.id.returnObservation) {
             HandleReturn();
         }
         return super.onOptionsItemSelected(item);

@@ -24,7 +24,6 @@ import android.widget.Toast;
 
 import com.example.m_hike.DatabaseHelper;
 import com.example.m_hike.R;
-import com.example.m_hike.login.LoginActivity;
 import com.example.m_hike.model.Hike;
 import com.example.m_hike.observation.ObservationActivity;
 import com.example.m_hike.utils.ConfirmationDialog;
@@ -67,6 +66,9 @@ public class HikeActivity extends AppCompatActivity implements HikeAdapter.Custo
         // Initialize the lstHike
         lstHike = new ArrayList<>();
         lstHike = databaseHelper.getAllHikes(username);
+
+        // Set the last assigned id
+        Hike.setLastAssignedId(lstHike.get(0).getId());
 
         // Initialize the spSearchCriteria
         spSearchCriteria = findViewById(R.id.spSearchCriteria);
@@ -174,7 +176,7 @@ public class HikeActivity extends AppCompatActivity implements HikeAdapter.Custo
                 if (result.getResultCode() == Activity.RESULT_OK) {
                     Intent data = result.getData();
                     if (data != null) {
-                        Toast.makeText(HikeActivity.this, "Return successfully!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(HikeActivity.this, "Returned to the hike page", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

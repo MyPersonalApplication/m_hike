@@ -68,7 +68,6 @@ public class ObservationAdapter extends RecyclerView.Adapter<ObservationAdapter.
         private final TextView tvObservationDate;
         private final TextView tvObservationName;
         private final TextView tvObservationComment;
-        private final TextView tvObservationPhoto;
         private final ImageButton btnOverFlowObservation;
 
         public ViewHolder(@NonNull View itemView) {
@@ -76,7 +75,6 @@ public class ObservationAdapter extends RecyclerView.Adapter<ObservationAdapter.
             tvObservationDate = itemView.findViewById(R.id.tvObservationDate);
             tvObservationName = itemView.findViewById(R.id.tvObservationName);
             tvObservationComment = itemView.findViewById(R.id.tvObservationComment);
-            tvObservationPhoto = itemView.findViewById(R.id.tvObservationPhoto);
             btnOverFlowObservation = itemView.findViewById(R.id.btnOverFlowObservation);
         }
 
@@ -91,8 +89,7 @@ public class ObservationAdapter extends RecyclerView.Adapter<ObservationAdapter.
         public void bind(final Observation observation) {
             tvObservationDate.setText(observation.getTime());
             tvObservationName.setText(limitString(observation.getName(), 15));
-            tvObservationComment.setText(limitString(observation.getAdditionalComment(), 15));
-            tvObservationPhoto.setText(3 + " photos");
+            tvObservationComment.setText(limitString(observation.getAdditionalComment(), 20));
 
             itemView.setOnClickListener(view -> {
                 if (customListeners != null) {

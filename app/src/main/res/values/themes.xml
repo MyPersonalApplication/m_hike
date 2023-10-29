@@ -31,7 +31,7 @@
     </style>
 
     <style name="myButton" parent="Widget.MaterialComponents.Button">
-        <item name="backgroundTint">@color/md_theme_dark_primaryContainer</item>
+        <item name="backgroundTint">@color/md_theme_light_error</item>
         <item name="android:textSize">18sp</item>
         <item name="cornerRadius">10dp</item>
     </style>

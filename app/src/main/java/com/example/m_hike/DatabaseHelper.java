@@ -14,14 +14,13 @@ import com.example.m_hike.model.Observation;
 import com.example.m_hike.model.Photo;
 import com.example.m_hike.model.User;
 
-import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
     private static final String DATABASE_NAME = "hiker_management";
-    private static final int DATABASE_VERSION = 9;
+    private static final int DATABASE_VERSION = 13;
 
     // Table User
     private static final String TABLE_USER = "user";
@@ -105,6 +104,30 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
             COLUMN_PHOTO_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP, " +
             "FOREIGN KEY (" + COLUMN_PHOTO_OBSERVATION_ID + ") REFERENCES " + TABLE_OBSERVATION + "(" + COLUMN_OBSERVATION_ID + ") ON DELETE CASCADE)";
 
+    // Create trigger to delete all hikes when a user is deleted
+    private static final String CREATE_TRIGGER_DELETE_USER = "CREATE TRIGGER delete_user " +
+            "AFTER DELETE ON " + TABLE_USER + " " +
+            "FOR EACH ROW " +
+            "BEGIN " +
+            "DELETE FROM " + TABLE_HIKE + " WHERE " + COLUMN_HIKE_USER_NAME + " = OLD." + COLUMN_USER_NAME + "; " +
+            "END";
+
+    // Create trigger to delete all observations when a hike is deleted
+    private static final String CREATE_TRIGGER_DELETE_HIKE = "CREATE TRIGGER delete_hike " +
+            "AFTER DELETE ON " + TABLE_HIKE + " " +
+            "FOR EACH ROW " +
+            "BEGIN " +
+            "DELETE FROM " + TABLE_OBSERVATION + " WHERE " + COLUMN_OBSERVATION_HIKE_ID + " = OLD." + COLUMN_HIKE_ID + "; " +
+            "END";
+
+    // Create trigger to delete all photos when an observation is deleted
+    private static final String CREATE_TRIGGER_DELETE_OBSERVATION = "CREATE TRIGGER delete_observation " +
+            "AFTER DELETE ON " + TABLE_OBSERVATION + " " +
+            "FOR EACH ROW " +
+            "BEGIN " +
+            "DELETE FROM " + TABLE_PHOTO + " WHERE " + COLUMN_PHOTO_OBSERVATION_ID + " = OLD." + COLUMN_OBSERVATION_ID + "; " +
+            "END";
+
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -115,6 +138,9 @@ public class DatabaseHelper extends SQLiteOpenHelper implements Serializable {
         db.execSQL(CREATE_TABLE_HIKE);
         db.execSQL(CREATE_TABLE_OBSERVATION);
         db.execSQL(CREATE_TABLE_PHOTO);
+        db.execSQL(CREATE_TRIGGER_DELETE_USER);
+        db.execSQL(CREATE_TRIGGER_DELETE_HIKE);
+        db.execSQL(CREATE_TRIGGER_DELETE_OBSERVATION);
     }
 
     @Override
