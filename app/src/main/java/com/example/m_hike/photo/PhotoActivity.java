@@ -82,7 +82,9 @@ public class PhotoActivity extends AppCompatActivity implements PhotoAdapter.Cus
         lstPhoto = databaseHelper.getAllPhotos(observationId);
 
         // Set the last assigned id
-        Photo.setLastAssignedId(lstPhoto.get(0).getId());
+        if (lstPhoto.size() > 0) {
+            Photo.setLastAssignedId(lstPhoto.get(0).getId());
+        }
 
         LoadPhoto(lstPhoto);
     }
@@ -184,12 +186,22 @@ public class PhotoActivity extends AppCompatActivity implements PhotoAdapter.Cus
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         String date = simpleDateFormat.format(new Date());
         Photo photo = new Photo(observationId, photoTitle, photoDescription, imageBytes, date);
-        databaseHelper.addPhoto(photo);
-        lstPhoto.add(0, photo);
-        LoadPhoto(lstPhoto);
-        photoAdapter.addItem(photo);
 
-        photoDialog.dismiss();
+        String message = "Your inputted data:";
+        message += "\nTitle: " + photo.getTitle();
+        message += "\nDescription: " + photo.getDescription();
+
+        ConfirmationDialog addConfirmationDialog = new ConfirmationDialog("Confirm your photo!", message);
+        addConfirmationDialog.showConfirmationDialog(
+                this,
+                (dialog, which) -> {
+                    databaseHelper.addPhoto(photo);
+                    lstPhoto.add(0, photo);
+                    LoadPhoto(lstPhoto);
+                    photoAdapter.addItem(photo);
+
+                    photoDialog.dismiss();
+                });
     }
 
     private boolean isEmpty(String value) {
@@ -293,11 +305,20 @@ public class PhotoActivity extends AppCompatActivity implements PhotoAdapter.Cus
         photo.setDescription(photoDescription);
         photo.setImageUrl(imageBytes);
 
-        databaseHelper.updatePhoto(photo);
-        LoadPhoto(lstPhoto);
-        photoAdapter.updateItem(photo);
+        String message = "Your inputted data:";
+        message += "\nTitle: " + photo.getTitle();
+        message += "\nDescription: " + photo.getDescription();
 
-        photoDialog.dismiss();
+        ConfirmationDialog updateConfirmationDialog = new ConfirmationDialog("Confirm your photo!", message);
+        updateConfirmationDialog.showConfirmationDialog(
+                this,
+                (dialog, which) -> {
+                    databaseHelper.updatePhoto(photo);
+                    LoadPhoto(lstPhoto);
+                    photoAdapter.updateItem(photo);
+
+                    photoDialog.dismiss();
+                });
     }
 
     @Override

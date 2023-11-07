@@ -156,6 +156,19 @@ public class HikeAdapter extends RecyclerView.Adapter<HikeAdapter.ViewHolder> im
                             filteredResults.add(item);
                         } else if (searchCriteria.equals("Date") && item.getDate().toLowerCase().contains(filterPattern)) {
                             filteredResults.add(item);
+                        } else if (searchCriteria.equals("Filter")) {
+                            String[] filter = filterPattern.split(",");
+                            String name = filter[0].equals("empty") ? "" : filter[0].trim();
+                            String location = filter[1].equals("empty") ? "" : filter[1].trim();
+                            String length = filter[2].equals("empty") ? "" : filter[2].trim();
+                            String date = filter[3].equals("empty") ? "" : filter[3].trim();
+
+                            if (item.getName().toLowerCase().contains(name.toLowerCase()) &&
+                                    item.getLocation().toLowerCase().contains(location.toLowerCase()) &&
+                                    item.getLength().toString().contains(length) &&
+                                    item.getDate().toLowerCase().contains(date.toLowerCase())) {
+                                filteredResults.add(item);
+                            }
                         }
                     }
                 }

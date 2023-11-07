@@ -6,20 +6,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.m_hike.R;
 import com.example.m_hike.model.Hike;
+import com.example.m_hike.utils.ConfirmationDialog;
 import com.example.m_hike.utils.LocationHelper;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class ManageHikeActivity extends AppCompatActivity implements LocationHelper.LocationListener {
@@ -164,8 +171,24 @@ public class ManageHikeActivity extends AppCompatActivity implements LocationHel
             hikeObj.setLength(Float.parseFloat(hikeLength));
             hikeObj.setDifficultyLevel(hikeDifficulty);
             hikeObj.setDescription(hikeDescription);
-            returnIntent.putExtra("hikeObj", hikeObj);
-            setResult(Activity.RESULT_OK, returnIntent);
+
+            String message = "Your inputted data:";
+            message += "\nName: " + hikeObj.getName();
+            message += "\nLocation: " + hikeObj.getLocation();
+            message += "\nParking available: " + hikeObj.getParkingAvailable();
+            message += "\nLength: " + hikeObj.getLength();
+            message += "\nDifficulty level: " + hikeObj.getDifficultyLevel();
+            message += "\nDo you want to save this hike?";
+
+            ConfirmationDialog updateConfirmationDialog = new ConfirmationDialog("Confirm your hike!", message);
+            updateConfirmationDialog.showConfirmationDialog(
+                    this,
+                    (dialog, which) -> {
+                        returnIntent.putExtra("hikeObj", hikeObj);
+                        setResult(Activity.RESULT_OK, returnIntent);
+
+                        finish();
+                    });
         } else {    // Add mode
             String pattern = "yyyy-MM-dd hh:mm:ss";
             @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -183,10 +206,25 @@ public class ManageHikeActivity extends AppCompatActivity implements LocationHel
                     hikeDifficulty,
                     hikeDescription
             );
-            returnIntent.putExtra("hikeObj", hike);
-            setResult(Activity.RESULT_OK, returnIntent);
+
+            String message = "Your inputted data:";
+            message += "\nName: " + hike.getName();
+            message += "\nLocation: " + hike.getLocation();
+            message += "\nParking available: " + hike.getParkingAvailable();
+            message += "\nLength: " + hike.getLength();
+            message += "\nDifficulty level: " + hike.getDifficultyLevel();
+            message += "\nDo you want to save this hike?";
+
+            ConfirmationDialog addConfirmationDialog = new ConfirmationDialog("Confirm your hike!", message);
+            addConfirmationDialog.showConfirmationDialog(
+                    this,
+                    (dialog, which) -> {
+                        returnIntent.putExtra("hikeObj", hike);
+                        setResult(Activity.RESULT_OK, returnIntent);
+
+                        finish();
+                    });
         }
-        finish();
     }
 
     private void HandleCancelHike() {
@@ -195,11 +233,29 @@ public class ManageHikeActivity extends AppCompatActivity implements LocationHel
         finish();
     }
 
+    public String getAddress(double lat, double lng) {
+        Geocoder geocoder = new Geocoder(ManageHikeActivity.this, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+            Address obj = addresses.get(0);
+
+            return obj.getAddressLine(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        return null;
+    }
+
     @Override
     public void onLocationReceived(double latitude, double longitude) {
         if (locationHelper != null) {
             txtHikeLatitude.setText(String.valueOf(latitude));
             txtHikeLongitude.setText(String.valueOf(longitude));
+            String currentLocation = getAddress(latitude, longitude);
+            if (currentLocation != null) {
+                txtHikeLocation.setText(currentLocation);
+            }
         }
     }
 

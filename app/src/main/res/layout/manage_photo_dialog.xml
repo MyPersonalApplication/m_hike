@@ -92,4 +92,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtPhotoTitle" />
+
+    <TextView
+        android:id="@+id/textView49"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:text="*"
+        android:textColor="@color/md_theme_dark_errorContainer"
+        app:layout_constraintEnd_toEndOf="@+id/txtPhotoTitle"
+        app:layout_constraintTop_toTopOf="@+id/txtPhotoTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

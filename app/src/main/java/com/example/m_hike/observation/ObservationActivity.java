@@ -70,7 +70,9 @@ public class ObservationActivity extends AppCompatActivity implements Observatio
         lstObservation = databaseHelper.getAllObservations(hikeId);
 
         // Set the last assigned id
-        Observation.setLastAssignedId(lstObservation.get(0).getId());
+        if (lstObservation.size() > 0) {
+            Observation.setLastAssignedId(lstObservation.get(0).getId());
+        }
 
         LoadObservation(lstObservation);
     }
@@ -163,12 +165,22 @@ public class ObservationActivity extends AppCompatActivity implements Observatio
             String date = simpleDateFormat.format(new Date());
 
             Observation observation = new Observation(hikeId, observationName, date, observationComment);
-            databaseHelper.addObservation(observation);
-            lstObservation.add(0, observation);
-            LoadObservation(lstObservation);
-            observationAdapter.addItem(observation);
 
-            observationDialog.dismiss();
+            String message = "Your inputted data:";
+            message += "\nName: " + observation.getName();
+            message += "\nComment: " + observation.getAdditionalComment();
+
+            ConfirmationDialog addConfirmationDialog = new ConfirmationDialog("Confirm your observation!", message);
+            addConfirmationDialog.showConfirmationDialog(
+                    this,
+                    (dialog, which) -> {
+                        databaseHelper.addObservation(observation);
+                        lstObservation.add(0, observation);
+                        LoadObservation(lstObservation);
+                        observationAdapter.addItem(observation);
+
+                        observationDialog.dismiss();
+                    });
         });
 
         btnCloseObservation.setOnClickListener(view -> observationDialog.dismiss());
@@ -234,10 +246,20 @@ public class ObservationActivity extends AppCompatActivity implements Observatio
 
             observation.setName(observationName);
             observation.setAdditionalComment(observationComment);
-            databaseHelper.UpdateObservation(observation);
-            LoadObservation(lstObservation);
-            observationAdapter.updateItem(observation);
-            observationDialog.dismiss();
+
+            String message = "Your inputted data:";
+            message += "\nName: " + observation.getName();
+            message += "\nComment: " + observation.getAdditionalComment();
+
+            ConfirmationDialog addConfirmationDialog = new ConfirmationDialog("Confirm your observation!", message);
+            addConfirmationDialog.showConfirmationDialog(
+                    this,
+                    (dialog, which) -> {
+                        databaseHelper.UpdateObservation(observation);
+                        LoadObservation(lstObservation);
+                        observationAdapter.updateItem(observation);
+                        observationDialog.dismiss();
+                    });
         });
 
         btnCloseObservation.setOnClickListener(view -> observationDialog.dismiss());

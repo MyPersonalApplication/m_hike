@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.m_hike.R;
 import com.example.m_hike.model.User;
+import com.example.m_hike.utils.ConfirmationDialog;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
@@ -152,8 +153,19 @@ public class ManageUserActivity extends AppCompatActivity {
                 userObj.setPassword(password);
             userObj.setAvatar(imageBytes);
 
-            returnIntent.putExtra("userObj", userObj);
-            setResult(Activity.RESULT_OK, returnIntent);
+            String message = "Your inputted data:";
+            message += "\nUsername: " + userObj.getUsername();
+            message += "\nFull name: " + userObj.getFullName();
+
+            ConfirmationDialog updateConfirmationDialog = new ConfirmationDialog("Confirm your account!", message);
+            updateConfirmationDialog.showConfirmationDialog(
+                    this,
+                    (dialog, which) -> {
+                        returnIntent.putExtra("userObj", userObj);
+                        setResult(Activity.RESULT_OK, returnIntent);
+
+                        finish();
+                    });
         } else {    // Add mode
             String pattern = "yyyy-MM-dd hh:mm:ss";
             @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -167,10 +179,20 @@ public class ManageUserActivity extends AppCompatActivity {
                     date
             );
 
-            returnIntent.putExtra("userObj", addUser);
-            setResult(Activity.RESULT_OK, returnIntent);
+            String message = "Your inputted data:";
+            message += "\nUsername: " + addUser.getUsername();
+            message += "\nFull name: " + addUser.getFullName();
+
+            ConfirmationDialog addConfirmationDialog = new ConfirmationDialog("Confirm your account!", message);
+            addConfirmationDialog.showConfirmationDialog(
+                    this,
+                    (dialog, which) -> {
+                        returnIntent.putExtra("userObj", addUser);
+                        setResult(Activity.RESULT_OK, returnIntent);
+
+                        finish();
+                    });
         }
-        finish();
     }
 
     private final ActivityResultLauncher<Intent> chooseImageLauncher = registerForActivityResult(

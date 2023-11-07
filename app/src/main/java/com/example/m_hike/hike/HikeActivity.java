@@ -6,17 +6,21 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -25,10 +29,14 @@ import android.widget.Toast;
 import com.example.m_hike.DatabaseHelper;
 import com.example.m_hike.R;
 import com.example.m_hike.model.Hike;
+import com.example.m_hike.model.Observation;
 import com.example.m_hike.observation.ObservationActivity;
 import com.example.m_hike.utils.ConfirmationDialog;
+import com.example.m_hike.utils.DatePickerFragment;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class HikeActivity extends AppCompatActivity implements HikeAdapter.CustomListeners {
@@ -39,6 +47,8 @@ public class HikeActivity extends AppCompatActivity implements HikeAdapter.Custo
     private RecyclerView recyclerView;
     private DatabaseHelper databaseHelper;
     private Spinner spSearchCriteria;
+    private Dialog filterHikeDialog;
+    private EditText txtFilterByName, txtFilterByLocation, txtFilterByLength, txtFilterByDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +61,21 @@ public class HikeActivity extends AppCompatActivity implements HikeAdapter.Custo
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
 
+        // Initialize the dialog
+        filterHikeDialog = new Dialog(HikeActivity.this);
+        filterHikeDialog.setContentView(R.layout.filter_hike_dialog);
+        filterHikeDialog.setCanceledOnTouchOutside(false);
+
+        PopulateFilterHikeByDate();
         Mapping();
+    }
+
+    private void PopulateFilterHikeByDate() {
+        txtFilterByDate = filterHikeDialog.findViewById(R.id.txtFilterByDate);
+        txtFilterByDate.setOnClickListener(view -> {
+            DialogFragment newFragment = new DatePickerFragment(txtFilterByDate, "yyyy-MM-dd");
+            newFragment.show(getSupportFragmentManager(), "datePicker");
+        });
     }
 
     private void Mapping() {
@@ -68,7 +92,9 @@ public class HikeActivity extends AppCompatActivity implements HikeAdapter.Custo
         lstHike = databaseHelper.getAllHikes(username);
 
         // Set the last assigned id
-        Hike.setLastAssignedId(lstHike.get(0).getId());
+        if (lstHike.size() > 0) {
+            Hike.setLastAssignedId(lstHike.get(0).getId());
+        }
 
         // Initialize the spSearchCriteria
         spSearchCriteria = findViewById(R.id.spSearchCriteria);
@@ -154,6 +180,8 @@ public class HikeActivity extends AppCompatActivity implements HikeAdapter.Custo
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.addHike) {
             AddHikeHandler();
+        } else if (item.getItemId() == R.id.filterHike) {
+            FilterHikeHandler();
         } else if (item.getItemId() == R.id.logout) {
             ConfirmationDialog confirmationDialog = new ConfirmationDialog("Logout", "Do you want to logout?");
             confirmationDialog.showConfirmationDialog(
@@ -162,6 +190,38 @@ public class HikeActivity extends AppCompatActivity implements HikeAdapter.Custo
             );
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void FilterHikeHandler() {
+        // Initialize the dialog components
+        txtFilterByName = filterHikeDialog.findViewById(R.id.txtFilterByName);
+        txtFilterByLocation = filterHikeDialog.findViewById(R.id.txtFilterByLocation);
+        txtFilterByLength = filterHikeDialog.findViewById(R.id.txtFilterByLength);
+        Button btnConfirmFilterHike = filterHikeDialog.findViewById(R.id.btnConfirmFilterHike);
+        Button btnCancelFilterHike = filterHikeDialog.findViewById(R.id.btnCancelFilterHike);
+
+        btnConfirmFilterHike.setOnClickListener(view -> {
+            String name = txtFilterByName.getText().toString().equals("") ? "empty" : txtFilterByName.getText().toString();
+            String location = txtFilterByLocation.getText().toString().equals("") ? "empty" : txtFilterByLocation.getText().toString();
+            String length = txtFilterByLength.getText().toString().equals("") ? "empty" : txtFilterByLength.getText().toString();
+            String date = txtFilterByDate.getText().toString().equals("") ? "empty" : txtFilterByDate.getText().toString();
+
+            hikeAdapter.setSearchCriteria("Filter");
+            hikeAdapter.getFilter().filter(name + "," + location + "," + length + "," + date);
+            filterHikeDialog.dismiss();
+        });
+
+        btnCancelFilterHike.setOnClickListener(view -> {
+            hikeAdapter.getFilter().filter("");
+            filterHikeDialog.dismiss();
+            // Reset the filter text
+            txtFilterByName.setText("");
+            txtFilterByLocation.setText("");
+            txtFilterByLength.setText("");
+            txtFilterByDate.setText("");
+        });
+
+        filterHikeDialog.show();
     }
 
     private void HandleLogout() {

@@ -93,7 +93,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
             imgViewPhoto.setImageBitmap(bitmap);
 
             tvPhotoDate.setText(photo.getTimestamp());
-            tvPhotoTitle.setText(limitString(photo.getTitle(), 20));
+            tvPhotoTitle.setText(limitString(photo.getTitle(), 5));
 
             itemView.setOnClickListener(view -> {
                 if (customListeners != null) {

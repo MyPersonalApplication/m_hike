@@ -148,4 +148,48 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtPassword" />
 
+    <TextView
+        android:id="@+id/textView44"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:text="*"
+        android:textColor="@color/md_theme_dark_errorContainer"
+        app:layout_constraintEnd_toEndOf="@+id/txtUsername"
+        app:layout_constraintTop_toTopOf="@+id/txtUsername" />
+
+    <TextView
+        android:id="@+id/textView45"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:text="*"
+        android:textColor="@color/md_theme_dark_errorContainer"
+        app:layout_constraintEnd_toEndOf="@+id/txtFullName"
+        app:layout_constraintTop_toTopOf="@+id/txtFullName" />
+
+    <TextView
+        android:id="@+id/textView46"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:text="*"
+        android:textColor="@color/md_theme_dark_errorContainer"
+        app:layout_constraintEnd_toEndOf="@+id/txtPassword"
+        app:layout_constraintTop_toTopOf="@+id/txtPassword" />
+
+    <TextView
+        android:id="@+id/textView47"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:text="*"
+        android:textColor="@color/md_theme_dark_errorContainer"
+        app:layout_constraintEnd_toEndOf="@+id/txtConfirmPassword"
+        app:layout_constraintTop_toTopOf="@+id/txtConfirmPassword" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
