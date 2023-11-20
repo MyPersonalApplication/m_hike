@@ -173,10 +173,6 @@ public class PhotoActivity extends AppCompatActivity implements PhotoAdapter.Cus
             showToast("Please input the title!");
             return;
         }
-        if (isEmpty(photoDescription)) {
-            showToast("Please input the description!");
-            return;
-        }
         if (imageBytes == null) {
             Toast.makeText(this, "Please take a picture!", Toast.LENGTH_SHORT).show();
             return;
@@ -190,6 +186,7 @@ public class PhotoActivity extends AppCompatActivity implements PhotoAdapter.Cus
         String message = "Your inputted data:";
         message += "\nTitle: " + photo.getTitle();
         message += "\nDescription: " + photo.getDescription();
+        message += "\nDo you want to save this photo?";
 
         ConfirmationDialog addConfirmationDialog = new ConfirmationDialog("Confirm your photo!", message);
         addConfirmationDialog.showConfirmationDialog(
@@ -292,10 +289,6 @@ public class PhotoActivity extends AppCompatActivity implements PhotoAdapter.Cus
             showToast("Please input the title!");
             return;
         }
-        if (isEmpty(photoDescription)) {
-            showToast("Please input the description!");
-            return;
-        }
         if (imageBytes == null) {
             Toast.makeText(this, "Please take a picture!", Toast.LENGTH_SHORT).show();
             return;
@@ -308,6 +301,7 @@ public class PhotoActivity extends AppCompatActivity implements PhotoAdapter.Cus
         String message = "Your inputted data:";
         message += "\nTitle: " + photo.getTitle();
         message += "\nDescription: " + photo.getDescription();
+        message += "\nDo you want to update this photo?";
 
         ConfirmationDialog updateConfirmationDialog = new ConfirmationDialog("Confirm your photo!", message);
         updateConfirmationDialog.showConfirmationDialog(

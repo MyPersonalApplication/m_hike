@@ -29,14 +29,11 @@ import android.widget.Toast;
 import com.example.m_hike.DatabaseHelper;
 import com.example.m_hike.R;
 import com.example.m_hike.model.Hike;
-import com.example.m_hike.model.Observation;
 import com.example.m_hike.observation.ObservationActivity;
 import com.example.m_hike.utils.ConfirmationDialog;
 import com.example.m_hike.utils.DatePickerFragment;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class HikeActivity extends AppCompatActivity implements HikeAdapter.CustomListeners {

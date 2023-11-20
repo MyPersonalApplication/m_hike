@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,6 +27,7 @@ import com.example.m_hike.R;
 import com.example.m_hike.model.Observation;
 import com.example.m_hike.photo.PhotoActivity;
 import com.example.m_hike.utils.ConfirmationDialog;
+import com.example.m_hike.utils.DatePickerFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,8 +36,8 @@ import java.util.List;
 
 public class ObservationActivity extends AppCompatActivity implements ObservationAdapter.CustomListeners {
     private Dialog observationDialog;
-    private EditText txtObservationName, txtObservationComment;
-    private String observationName, observationComment;
+    private EditText txtObservationName, txtObservationDate, txtObservationComment;
+    private String observationName, observationDate, observationComment;
     private long hikeId;
     private ObservationAdapter observationAdapter;
     private List<Observation> lstObservation;
@@ -141,34 +143,40 @@ public class ObservationActivity extends AppCompatActivity implements Observatio
         observationDialog.setContentView(R.layout.manage_observation_dialog);
         observationDialog.setCanceledOnTouchOutside(false);
 
+        String pattern = "yyyy-MM-dd HH:mm:ss";
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        String date = simpleDateFormat.format(new Date());
+
         // Initialize the dialog components
         txtObservationName = observationDialog.findViewById(R.id.txtObservationName);
+        txtObservationDate = observationDialog.findViewById(R.id.txtObservationDate);
         txtObservationComment = observationDialog.findViewById(R.id.txtObservationComment);
         Button btnSaveObservation = observationDialog.findViewById(R.id.btnSaveObservation);
         Button btnCloseObservation = observationDialog.findViewById(R.id.btnCloseObservation);
 
+        txtObservationDate.setOnClickListener(view -> {
+            DialogFragment newFragment = new DatePickerFragment(txtObservationDate, "yyyy-MM-dd HH:mm:ss");
+            newFragment.show(getSupportFragmentManager(), "datePicker");
+        });
+        txtObservationDate.setText(date);
+
         btnSaveObservation.setOnClickListener(view -> {
             observationName = txtObservationName.getText().toString();
+            observationDate = txtObservationDate.getText().toString();
             observationComment = txtObservationComment.getText().toString();
 
             if (isEmpty(observationName)) {
                 showToast("Please enter the observation name!");
                 return;
             }
-            if (isEmpty(observationComment)) {
-                showToast("Please enter the observation comment!");
-                return;
-            }
 
-            String pattern = "yyyy-MM-dd hh:mm:ss";
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-            String date = simpleDateFormat.format(new Date());
-
-            Observation observation = new Observation(hikeId, observationName, date, observationComment);
+            Observation observation = new Observation(hikeId, observationName, observationDate, observationComment);
 
             String message = "Your inputted data:";
             message += "\nName: " + observation.getName();
+            message += "\nDate: " + observation.getTime();
             message += "\nComment: " + observation.getAdditionalComment();
+            message += "\nDo you want to save this observation?";
 
             ConfirmationDialog addConfirmationDialog = new ConfirmationDialog("Confirm your observation!", message);
             addConfirmationDialog.showConfirmationDialog(
@@ -224,32 +232,39 @@ public class ObservationActivity extends AppCompatActivity implements Observatio
 
         // Initialize the dialog components'
         txtObservationName = observationDialog.findViewById(R.id.txtObservationName);
+        txtObservationDate = observationDialog.findViewById(R.id.txtObservationDate);
         txtObservationComment = observationDialog.findViewById(R.id.txtObservationComment);
         Button btnSaveObservation = observationDialog.findViewById(R.id.btnSaveObservation);
         Button btnCloseObservation = observationDialog.findViewById(R.id.btnCloseObservation);
 
+        txtObservationDate.setOnClickListener(view -> {
+            DialogFragment newFragment = new DatePickerFragment(txtObservationDate, "yyyy-MM-dd HH:mm:ss");
+            newFragment.show(getSupportFragmentManager(), "datePicker");
+        });
+
         txtObservationName.setText(observation.getName());
+        txtObservationDate.setText(observation.getTime());
         txtObservationComment.setText(observation.getAdditionalComment());
 
         btnSaveObservation.setOnClickListener(view -> {
             observationName = txtObservationName.getText().toString();
+            observationDate = txtObservationDate.getText().toString();
             observationComment = txtObservationComment.getText().toString();
 
             if (isEmpty(observationName)) {
                 showToast("Please enter the observation name!");
                 return;
             }
-            if (isEmpty(observationComment)) {
-                showToast("Please enter the observation comment!");
-                return;
-            }
 
             observation.setName(observationName);
+            observation.setTime(observationDate);
             observation.setAdditionalComment(observationComment);
 
             String message = "Your inputted data:";
             message += "\nName: " + observation.getName();
+            message += "\nDate: " + observation.getTime();
             message += "\nComment: " + observation.getAdditionalComment();
+            message += "\nDo you want to save this observation?";
 
             ConfirmationDialog addConfirmationDialog = new ConfirmationDialog("Confirm your observation!", message);
             addConfirmationDialog.showConfirmationDialog(

@@ -100,7 +100,7 @@ public class ManageUserActivity extends AppCompatActivity {
                 }
 
                 if (!password.equals(confirmPassword)) {
-                    showToast("Password and confirm password must be the same!");
+                    showToast("Password and confirm password does not match!");
                     return;
                 }
             } else {
@@ -111,7 +111,7 @@ public class ManageUserActivity extends AppCompatActivity {
                     }
 
                     if (!password.equals(confirmPassword)) {
-                        showToast("Password and confirm password must be the same!");
+                        showToast("Password and confirm password does not match!");
                         return;
                     }
                 }
@@ -156,6 +156,7 @@ public class ManageUserActivity extends AppCompatActivity {
             String message = "Your inputted data:";
             message += "\nUsername: " + userObj.getUsername();
             message += "\nFull name: " + userObj.getFullName();
+            message += "\nDo you want to save this user?";
 
             ConfirmationDialog updateConfirmationDialog = new ConfirmationDialog("Confirm your account!", message);
             updateConfirmationDialog.showConfirmationDialog(
@@ -182,6 +183,7 @@ public class ManageUserActivity extends AppCompatActivity {
             String message = "Your inputted data:";
             message += "\nUsername: " + addUser.getUsername();
             message += "\nFull name: " + addUser.getFullName();
+            message += "\nDo you want to save this user?";
 
             ConfirmationDialog addConfirmationDialog = new ConfirmationDialog("Confirm your account!", message);
             addConfirmationDialog.showConfirmationDialog(

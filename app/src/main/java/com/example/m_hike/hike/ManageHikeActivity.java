@@ -175,6 +175,7 @@ public class ManageHikeActivity extends AppCompatActivity implements LocationHel
             String message = "Your inputted data:";
             message += "\nName: " + hikeObj.getName();
             message += "\nLocation: " + hikeObj.getLocation();
+            message += "\nDate created: " + hikeObj.getDate();
             message += "\nParking available: " + hikeObj.getParkingAvailable();
             message += "\nLength: " + hikeObj.getLength();
             message += "\nDifficulty level: " + hikeObj.getDifficultyLevel();
@@ -210,6 +211,7 @@ public class ManageHikeActivity extends AppCompatActivity implements LocationHel
             String message = "Your inputted data:";
             message += "\nName: " + hike.getName();
             message += "\nLocation: " + hike.getLocation();
+            message += "\nDate created: " + date;
             message += "\nParking available: " + hike.getParkingAvailable();
             message += "\nLength: " + hike.getLength();
             message += "\nDifficulty level: " + hike.getDifficultyLevel();

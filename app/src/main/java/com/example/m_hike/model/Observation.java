@@ -7,7 +7,7 @@ public class Observation implements Serializable {
     private long id;
     private final long hikeId;
     private String name;
-    private final String time;
+    private String time;
     private String additionalComment;
 
     public Observation(long hikeId, String name, String time, String additionalComment) {
@@ -52,6 +52,10 @@ public class Observation implements Serializable {
 
     public String getTime() {
         return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getAdditionalComment() {

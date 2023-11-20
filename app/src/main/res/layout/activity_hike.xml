@@ -130,8 +130,10 @@
         android:id="@+id/svSearchHike"
         android:layout_width="256dp"
         android:layout_height="39dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/spSearchCriteria"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 </androidx.constraintlayout.widget.ConstraintLayout>
