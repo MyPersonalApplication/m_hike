@@ -1,4 +1,4 @@
-package com.example.m_hike;
+package com.example.m_hike.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

@@ -20,7 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.m_hike.DatabaseHelper;
+import com.example.m_hike.utils.DatabaseHelper;
 import com.example.m_hike.R;
 import com.example.m_hike.hike.HikeActivity;
 import com.example.m_hike.model.User;
