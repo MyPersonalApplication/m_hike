@@ -308,6 +308,7 @@ public class HikeActivity extends AppCompatActivity implements HikeAdapter.Custo
                             lstHike.add(0, reply);
                             LoadHike(lstHike);
                             hikeAdapter.addItem(reply);
+                            Toast.makeText(HikeActivity.this, "Hike added successfully", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
